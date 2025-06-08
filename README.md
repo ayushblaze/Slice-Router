@@ -13,6 +13,7 @@ A modern, full-featured pizza ordering app built with **React**, **Redux Toolkit
   - Selectors for efficient state access.
 - **React Router v6** for routing, navigation, and data loading:
   - Uses route loaders and actions for data fetching and mutations.
+  - **Order priority updates** - customers can upgrade their order to priority even after placement using form actions.
   - No external data-fetching libraries (like React Query or SWR) are used—**all data fetching is handled via React Router loaders/actions and native `fetch`**.
 - **Tailwind CSS** for utility-first, responsive, and modern UI.
 - **Vite** for instant hot module reloads and fast builds.
@@ -27,7 +28,7 @@ src/
   features/
     cart/      # Cart slice, components, and logic
     menu/      # Menu display and data loading
-    order/     # Order creation, viewing, and search
+    order/     # Order creation, viewing, search, and priority updates
     ui/        # Shared UI components (Header, Button, Loader, etc.)
     user/      # User slice and user-related components
   services/    # API utilities (fetching menu, orders, geocoding)
@@ -50,7 +51,8 @@ src/
 ### Routing and Data Loading
 
 - **React Router v6** is used for all navigation and data loading.
-- **Loaders and Actions**: Data fetching (menu, order details) and mutations (creating orders) are handled via route loaders and actions, not via external libraries.
+- **Loaders and Actions**: Data fetching (menu, order details) and mutations (creating orders, updating order priority) are handled via route loaders and actions, not via external libraries.
+- **Order Priority Updates**: Customers can upgrade their order to priority status even after it has been placed, using React Router's form actions with `useFetcher` for optimistic updates.
 - **No React Query/SWR**: All data fetching is done with native `fetch` and React Router's built-in mechanisms.
 
 ### UI and Styling
@@ -100,6 +102,7 @@ src/
 
 - **RTK with Modern Patterns**: Uses `createSlice`, `createAsyncThunk`, and selectors for robust, scalable state management.
 - **React Router Data APIs**: All data fetching and mutations are handled via React Router's loaders and actions—no need for extra libraries.
+- **Order Priority Updates**: Demonstrates advanced React Router patterns with `useFetcher` for optimistic updates and form actions for mutations.
 - **No External Data Fetching Libraries**: Simplicity and performance by relying on native `fetch` and React Router.
 - **Clean, Modular Codebase**: Each feature is isolated, making the codebase easy to navigate and extend.
 - **Beautiful UI**: Tailwind CSS ensures a consistent, modern look.
@@ -126,6 +129,27 @@ export async function loader() {
 }
 ```
 
+**Order Priority Update with Form Actions:**
+```js
+// Using useFetcher for optimistic updates
+function UpdateOrder() {
+  const fetcher = useFetcher();
+  
+  return (
+    <fetcher.Form method="PATCH" className="text-right">
+      <Button type="primary">Make Priority</Button>
+    </fetcher.Form>
+  );
+}
+
+// Form action for mutation
+export async function action({ params }) {
+  const data = { priority: true };
+  await updateOrder(params.orderId, data);
+  return null;
+}
+```
+
 **No React Query/SWR:**
 - All data fetching is done with `fetch` inside loaders/actions or thunks.
 
@@ -133,6 +157,6 @@ export async function loader() {
 
 ## 🏁 Conclusion
 
-This project demonstrates a modern, idiomatic React architecture with Redux Toolkit and React Router, focusing on simplicity, performance, and best practices—**without relying on external data-fetching libraries**.
+This project demonstrates a modern, idiomatic React architecture with Redux Toolkit and React Router, focusing on simplicity, performance, and best practices—**without relying on external data-fetching libraries**. The order priority update feature showcases advanced React Router patterns for handling mutations with optimistic updates.
 
 ---
