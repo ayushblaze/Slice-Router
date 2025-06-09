@@ -1,4 +1,4 @@
-# 🍕 Fast Pizza Co
+# 🍕 Slice-Router
 
 A modern, full-featured pizza ordering app built with **React**, **Redux Toolkit (RTK)**, and **React Router v6**. Styled with **Tailwind CSS** and powered by **Vite** for lightning-fast development.
 
