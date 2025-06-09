@@ -6,6 +6,7 @@ import {
   calcMinutesLeft,
   formatCurrency,
   formatDate,
+  convertEurToInr,
 } from "../../utilities/helpers";
 import { useEffect } from "react";
 import UpdateOrder from "./UpdateOrder";
@@ -135,7 +136,20 @@ function Order() {
 
 export async function loader({ params }) {
   const order = await getOrder(params.orderId);
-  return order;
+  
+  // Convert Euro prices to Indian Rupees
+  const orderWithInrPrices = {
+    ...order,
+    orderPrice: convertEurToInr(order.orderPrice),
+    priorityPrice: convertEurToInr(order.priorityPrice),
+    cart: order.cart.map(item => ({
+      ...item,
+      unitPrice: convertEurToInr(item.unitPrice),
+      totalPrice: convertEurToInr(item.totalPrice)
+    }))
+  };
+  
+  return orderWithInrPrices;
 }
 
 export default Order;

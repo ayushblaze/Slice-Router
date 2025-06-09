@@ -1,7 +1,14 @@
+// Currency conversion rate: 1 EUR = ~90 INR (approximate)
+const EUR_TO_INR_RATE = 90;
+
+export function convertEurToInr(eurAmount) {
+  return Math.round(eurAmount * EUR_TO_INR_RATE);
+}
+
 export function formatCurrency(value) {
-  return new Intl.NumberFormat("en", {
+  return new Intl.NumberFormat("en-IN", {
     style: "currency",
-    currency: "EUR",
+    currency: "INR",
   }).format(value);
 }
 

@@ -59,7 +59,8 @@ function CreateOrder() {
   const [withPriority, setWithPriority] = useState(false);
   const cart = useSelector(getCart);
   const totalCartPrice = useSelector(getTotalCartPrice);
-  const priorityPrice = 0;
+  // Priority price is 20% of cart total, converted to INR
+  const priorityPrice = withPriority ? Math.round(totalCartPrice * 0.2) : 0;
   const totalPrice = totalCartPrice + priorityPrice;
   const dispatch = useDispatch();
 

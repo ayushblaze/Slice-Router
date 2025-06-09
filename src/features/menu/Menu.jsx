@@ -1,5 +1,6 @@
 import { useLoaderData } from "react-router-dom";
 import { getMenu } from "../../services/apiRestaurant";
+import { convertEurToInr } from "../../utilities/helpers";
 import MenuItem from "./MenuItem";
 
 function Menu() {
@@ -17,7 +18,14 @@ function Menu() {
 
 export async function loader() {
   const menu = await getMenu();
-  return menu;
+  
+  // Convert Euro prices to Indian Rupees
+  const menuWithInrPrices = menu.map(pizza => ({
+    ...pizza,
+    unitPrice: convertEurToInr(pizza.unitPrice)
+  }));
+  
+  return menuWithInrPrices;
 }
 
 export default Menu;
